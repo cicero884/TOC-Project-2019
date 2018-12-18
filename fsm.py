@@ -34,7 +34,7 @@ class TocMachine(GraphMachine):
     def on_enter_roomA(self,event):
         print("@roomA")
         sender_id = event['sender']['id']
-        responese = send_text_message(sender_id, "I walked into room A,there are "+', '.join())
+        responese = send_text_message(sender_id, "I walked into room A,there are "+', '.join(roomA_object) if len(roomA_object) else "nothing"+"in it");
         
     def on_enter_state1(self, event):
         print("I'm entering state1")

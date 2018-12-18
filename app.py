@@ -13,37 +13,37 @@ machine = TocMachine(
     ],
     transitions=[
         {
-            'trigger': 'advance',
+            'trigger': 'enter',
             'source': 'roomA',
             'dest': 'roomB',
             'conditions': 'open_door_i'
         },
         {
-            'trigger': 'advance',
+            'trigger': 'enter',
             'source': 'roomA',
             'dest': 'roomC',
             'conditions': 'open_door_j'
         },
         {
-            'trigger': 'advance',
+            'trigger': 'enter',
             'source': 'roomA',
             'dest': 'roomD',
             'conditions': 'open_door_k'
         },
         {
-            'trigger': 'advance',
+            'trigger': 'enter',
             'source': 'roomC',
             'dest': 'roomE',
             'conditions': 'open_door_l'
         },
         {
-            'trigger': 'advance',
+            'trigger': 'enter',
             'source': 'roomD',
             'dest': 'roomC',
             'conditions': 'open_door_m'
         },
         {
-            'trigger': 'advance',
+            'trigger': 'enter',
             'source': 'roomC',
             'dest': 'roomD',
             'conditions': 'open_door_m'
@@ -85,12 +85,18 @@ def setup_webhook():
 def webhook_handler():
     body = request.json
     print('\nFSM STATE: ' + machine.state)
-    print('REQUEST BODY: ')
-    print(body)
+    #print('REQUEST BODY: ')
+    #print(body)
 
     if body['object'] == "page":
         event = body['entry'][0]['messaging'][0]
-        machine.advance(event)
+        text=event[message][text]
+        if text.find('enter'):
+            machine.enter(event)
+
+        if text.find('open'):
+            machine.open(event)
+        print(event)
         return 'OK'
 
 
