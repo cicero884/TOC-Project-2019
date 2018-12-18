@@ -29,12 +29,15 @@ class TocMachine(GraphMachine):
             return text.lower() == 'go to state2'
         return False
 
-
+    def room_discription(sender_id,objects,doors):
+        send_text_message(sender_id, 'There are '+', '.join(roomA_object) if len(roomA_object) else "nothing"+"in it");
 
     def on_enter_roomA(self,event):
         print("@roomA")
         sender_id = event['sender']['id']
-        responese = send_text_message(sender_id, "I walked into room A,there are "+', '.join(roomA_object) if len(roomA_object) else "nothing"+"in it");
+        send_text_message(sender_id,'I walk into room A.')
+        room_discription(sender_id,roomA)
+        
         
     def on_enter_state1(self, event):
         print("I'm entering state1")

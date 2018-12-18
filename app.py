@@ -95,7 +95,8 @@ def webhook_handler():
             machine.enter(event)
 
         if text.find('open'):
-            machine.open(event)
+            machine.reset(event)
+
         print(event)
         return 'OK'
 
