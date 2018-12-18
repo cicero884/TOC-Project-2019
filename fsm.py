@@ -4,6 +4,12 @@ from utils import send_text_message
 
 
 class TocMachine(GraphMachine):
+    Backpack=[]
+    roomA_object=[]
+    roomB_object=[]
+    roomC_object=[]
+    roomD_object=[]
+    roomE_object=[]
 
     def __init__(self, **machine_configs):
         self.machine = GraphMachine(
@@ -25,7 +31,7 @@ class TocMachine(GraphMachine):
 
 
 
-    def on_enter_roomA(self,event);
+    def on_enter_roomA(self,event):
         print("@roomA")
         sender_id = event['sender']['id']
         responese = send_text_message(sender_id, "I walked into room A,there are "+', '.join())
