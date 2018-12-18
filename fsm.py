@@ -4,6 +4,7 @@ from utils import send_text_message
 
 
 class TocMachine(GraphMachine):
+
     def __init__(self, **machine_configs):
         self.machine = GraphMachine(
             model=self,
@@ -15,16 +16,22 @@ class TocMachine(GraphMachine):
             text = event['message']['text']
             return text.lower() == 'go to state1'
         return False
-
+    
     def is_going_to_state2(self, event):
         if event.get("message"):
             text = event['message']['text']
             return text.lower() == 'go to state2'
         return False
 
+
+
+    def on_enter_roomA(self,event);
+        print("@roomA")
+        sender_id = event['sender']['id']
+        responese = send_text_message(sender_id, "I walked into room A,there are "+', '.join())
+        
     def on_enter_state1(self, event):
         print("I'm entering state1")
-
         sender_id = event['sender']['id']
         responese = send_text_message(sender_id, "I'm entering state1")
         self.go_back()

@@ -2,37 +2,66 @@ from bottle import route, run, request, abort, static_file
 
 from fsm import TocMachine
 
-
 VERIFY_TOKEN = "Your Webhook Verify Token"
 machine = TocMachine(
     states=[
-        'user',
-        'state1',
-        'state2'
+        'roomA',
+        'roomB',
+        'roomC',
+        'roomD',
+        'roomE',
     ],
     transitions=[
         {
             'trigger': 'advance',
-            'source': 'user',
-            'dest': 'state1',
-            'conditions': 'is_going_to_state1'
+            'source': 'roomA',
+            'dest': 'roomB',
+            'conditions': 'open_door_i'
         },
         {
             'trigger': 'advance',
-            'source': 'user',
-            'dest': 'state2',
-            'conditions': 'is_going_to_state2'
+            'source': 'roomA',
+            'dest': 'roomC',
+            'conditions': 'open_door_j'
         },
         {
-            'trigger': 'go_back',
+            'trigger': 'advance',
+            'source': 'roomA',
+            'dest': 'roomD',
+            'conditions': 'open_door_k'
+        },
+        {
+            'trigger': 'advance',
+            'source': 'roomC',
+            'dest': 'roomE',
+            'conditions': 'open_door_l'
+        },
+        {
+            'trigger': 'advance',
+            'source': 'roomD',
+            'dest': 'roomC',
+            'conditions': 'open_door_m'
+        },
+        {
+            'trigger': 'advance',
+            'source': 'roomC',
+            'dest': 'roomD',
+            'conditions': 'open_door_m'
+        },
+        {
+            'trigger': 'reset',
             'source': [
-                'state1',
-                'state2'
+                'roomA',
+                'roomB',
+                'roomC',
+                'roomD',
+                'roomE',
             ],
-            'dest': 'user'
+            'dest': 'user',
+            'conditions':'reset'
         }
     ],
-    initial='user',
+    initial='roomA',
     auto_transitions=False,
     show_conditions=True,
 )
