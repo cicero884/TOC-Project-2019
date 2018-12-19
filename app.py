@@ -5,63 +5,87 @@ from fsm import TocMachine
 VERIFY_TOKEN = "Your Webhook Verify Token"
 machine = TocMachine(
     states=[
-        'roomA',
-        'roomB',
-        'roomC',
-        'roomD',
-        'roomE',
+        'room0',
+        'room1',
+        'room2',
+        'room3',
+        'room4',
     ],
     transitions=[
         {
             'trigger': 'enter',
-            'source': 'roomA',
-            'dest': 'roomB',
-            'conditions': 'open_door_i'
+            'source': 'room0',
+            'dest': 'room1',
+            'conditions': 'door_A'
         },
         {
             'trigger': 'enter',
-            'source': 'roomA',
-            'dest': 'roomC',
-            'conditions': 'open_door_j'
+            'source': 'room1',
+            'dest': 'room0',
+            'conditions': 'door_A'
         },
         {
             'trigger': 'enter',
-            'source': 'roomA',
-            'dest': 'roomD',
-            'conditions': 'open_door_k'
+            'source': 'room0',
+            'dest': 'room2',
+            'conditions': 'door_B'
         },
         {
             'trigger': 'enter',
-            'source': 'roomC',
-            'dest': 'roomE',
-            'conditions': 'open_door_l'
+            'source': 'room2',
+            'dest': 'room0',
+            'conditions': 'door_B'
         },
         {
             'trigger': 'enter',
-            'source': 'roomD',
-            'dest': 'roomC',
-            'conditions': 'open_door_m'
+            'source': 'room0',
+            'dest': 'room3',
+            'conditions': 'door_C'
         },
         {
             'trigger': 'enter',
-            'source': 'roomC',
-            'dest': 'roomD',
-            'conditions': 'open_door_m'
+            'source': 'room3',
+            'dest': 'room0',
+            'conditions': 'door_C'
         },
         {
-            'trigger': 'reset',
+            'trigger': 'enter',
+            'source': 'room2',
+            'dest': 'room4',
+            'conditions': 'door_D'
+        },
+        {
+            'trigger': 'enter',
+            'source': 'room4',
+            'dest': 'room2',
+            'conditions': 'door_D'
+        },
+        {
+            'trigger': 'enter',
+            'source': 'room2',
+            'dest': 'room3',
+            'conditions': 'door_E'
+        },
+        {
+            'trigger': 'enter',
+            'source': 'room3',
+            'dest': 'room2',
+            'conditions': 'door_E'
+        },
+        {
+            'trigger': 'command',
             'source': [
-                'roomA',
-                'roomB',
-                'roomC',
-                'roomD',
-                'roomE',
+                'room0',
+                'room1',
+                'room2',
+                'room3',
+                'room4',
             ],
-            'dest': 'user',
+            'dest': 'room0',
             'conditions':'reset'
         }
     ],
-    initial='roomA',
+    initial='room0',
     auto_transitions=False,
     show_conditions=True,
 )
@@ -90,14 +114,24 @@ def webhook_handler():
 
     if body['object'] == "page":
         event = body['entry'][0]['messaging'][0]
-        text=event[message][text]
-        if text.find('enter'):
-            machine.enter(event)
-
-        if text.find('open'):
-            machine.reset(event)
-
         print(event)
+        if 'message' in event:
+            sender_id = event['sender']['id']
+            text=event['message']['text']
+            if (text.find('enter')>=0):
+                machine.enter(event)
+
+            elif (text=='reset'):
+                machine.command(event)
+
+            elif (text=='where'):
+                machine.room_description(sender_id,int(machine.state[4]))
+
+            elif text=='help':
+                machine.help(sender_id)
+
+        #if text.find('pick up'):
+        #print(event)
         return 'OK'
 
 
