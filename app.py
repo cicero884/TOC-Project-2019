@@ -5,9 +5,6 @@ from fsm import TocMachine
 VERIFY_TOKEN = os.environ['VERIFY_TOKEN']
 PORT = os.environ['PORT']
 
-if __name__=="__main__":
-    app.run(host="0.0.0.0",port=PORT,debug=True,reloader=True)
-
 machine = TocMachine(
     states=[
         'room0',
@@ -160,4 +157,4 @@ def show_fsm():
 
 
 if __name__ == "__main__":
-    run(host="localhost", port=5000, debug=True, reloader=True)
+    run(host="0.0.0.0", port=PORT, debug=True, reloader=True)
