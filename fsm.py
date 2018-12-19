@@ -85,6 +85,7 @@ class TocMachine(GraphMachine):
             text = event['message']['text']
             if text == 'enter door_E':
                 if self.keys[4]:
+                    send_text_message(sender_id,'You fell the floor disappear.')
                     return True
                 else:
                     sender_id = event['sender']['id']
@@ -204,22 +205,22 @@ class TocMachine(GraphMachine):
     def on_enter_room0(self,event):
         print("@room0")
         sender_id = event['sender']['id']
-        send_text_message(sender_id,'You walked into room0.')
+        send_text_message(sender_id,'You go into room0.')
 
     def on_enter_room1(self,event):
         print("@room1")
         sender_id = event['sender']['id']
-        send_text_message(sender_id,'You walked into room1.There are some locker there.')
+        send_text_message(sender_id,'You go into room1.There are some locker there.')
 
     def on_enter_room2(self,event):
         print("@room2")
         sender_id = event['sender']['id']
-        send_text_message(sender_id,'You walked into room2.The smell from the dead body is terrible.')
+        send_text_message(sender_id,'You go into room2.The smell from the dead body is terrible.')
 
     def on_enter_room3(self,event):
         print("@room3")
         sender_id = event['sender']['id']
-        send_text_message(sender_id,'You walked into room3.')
+        send_text_message(sender_id,'You go into room3.It looks nothing there')
 
     def on_enter_room4(self,event):
         print("@room4")
@@ -231,11 +232,11 @@ class TocMachine(GraphMachine):
             self.monster_new_pos=4
             self.enter(event)
         else:
-            send_text_message(sender_id,'You walked into room4.')
+            send_text_message(sender_id,'You go into room4.')
 
     def on_enter_outside(self,event):
         print("@out")
         sender_id = event['sender']['id']
-        send_text_message(sender_id,'You walked outside.')
+        send_text_message(sender_id,'You run outside.')
         self.gameover(event,0)
 
