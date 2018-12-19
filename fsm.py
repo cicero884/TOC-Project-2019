@@ -99,7 +99,7 @@ class TocMachine(GraphMachine):
     def reset(self, event):
         if event.get("message"):
             text = event['message']['text']
-            if text == 'reset' or int(self.state[4])==self.monster_pre_pos:
+            if text == 'reset' or self.state=='outside' or int(self.state[4])==self.monster_pre_pos:
                 #global house
                 #global keys
                 #global active_monster
