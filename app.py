@@ -10,6 +10,7 @@ machine = TocMachine(
         'room2',
         'room3',
         'room4',
+        'outside'
     ],
     transitions=[
         {
@@ -62,15 +63,15 @@ machine = TocMachine(
         },
         {
             'trigger': 'enter',
-            'source': 'room2',
-            'dest': 'room3',
+            'source': 'room3',
+            'dest': 'room2',
             'conditions': 'door_E'
         },
         {
             'trigger': 'enter',
-            'source': 'room3',
-            'dest': 'room2',
-            'conditions': 'door_E'
+            'source': 'room4',
+            'dest': 'outside',
+            'conditions': 'door_exit'
         },
         {
             'trigger': 'command',
@@ -80,6 +81,7 @@ machine = TocMachine(
                 'room2',
                 'room3',
                 'room4',
+                'outside'
             ],
             'dest': 'room0',
             'conditions':'reset'
@@ -118,19 +120,30 @@ def webhook_handler():
         if 'message' in event:
             sender_id = event['sender']['id']
             text=event['message']['text']
-            if (text.find('enter')>=0):
-                machine.enter(event)
-
-            elif (text=='reset'):
+            
+            if (text=='reset'):
                 machine.command(event)
-
-            elif (text=='where'):
-                machine.room_description(sender_id,int(machine.state[4]))
 
             elif text=='help':
                 machine.help(sender_id)
 
-        #if text.find('pick up'):
+            else:
+                if(machine.state!='outside'):
+                    machine.monster_new_pos=int(machine.state[4])
+                if (text.find('enter')>=0):
+                    machine.enter(event)
+
+                elif (text.find('search')>=0):
+                    machine.search(event)
+
+                elif (text=='observe'):
+                    machine.room_description(event,machine.state)
+
+                machine.monster_attack(event)
+                if machine.active_monster:
+                    machine.monster_move(sender_id)
+                machine.monster_attack(event)
+
         #print(event)
         return 'OK'
 
