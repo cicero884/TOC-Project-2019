@@ -12,9 +12,22 @@ machine = TocMachine(
         'room2',
         'room3',
         'room4',
+        'room5',
         'outside'
     ],
     transitions=[
+        {
+            'trigger': 'enter',
+            'source': 'room0',
+            'dest': 'room5',
+            'conditions': 'door_F'
+        },
+        {
+            'trigger': 'enter',
+            'source': 'room5',
+            'dest': 'room0',
+            'conditions': 'door_F'
+        },
         {
             'trigger': 'enter',
             'source': 'room0',
@@ -83,6 +96,7 @@ machine = TocMachine(
                 'room2',
                 'room3',
                 'room4',
+                'room5',
                 'outside'
             ],
             'dest': 'room0',

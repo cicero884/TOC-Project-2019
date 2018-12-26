@@ -47,6 +47,14 @@ class TocMachine(GraphMachine):
 
         return False
 
+    def door_F(self, event):
+        print('@door_F')
+        if event.get("message"):
+            text = event['message']['text']
+            if text == 'enter door_A':
+                    return True
+        return False
+
     def door_B(self, event):
         if event.get("message"):
             text = event['message']['text']
@@ -206,6 +214,11 @@ class TocMachine(GraphMachine):
         print("@room0")
         sender_id = event['sender']['id']
         send_text_message(sender_id,'You go into room0.')
+
+    def on_enter_room5(self,event):
+        print("@room5")
+        sender_id = event['sender']['id']
+        send_text_message(sender_id,'You go into room5,hello.')
 
     def on_enter_room1(self,event):
         print("@room1")
