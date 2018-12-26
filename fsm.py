@@ -46,15 +46,15 @@ class TocMachine(GraphMachine):
                     send_text_message(sender_id,'The door is locked!')
 
         return False
-
+    "add"
     def door_F(self, event):
         print('@door_F')
         if event.get("message"):
             text = event['message']['text']
-            if text == 'enter door_A':
+            if text == 'enter door_F':
                     return True
         return False
-
+    "there"
     def door_B(self, event):
         if event.get("message"):
             text = event['message']['text']
