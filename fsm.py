@@ -28,6 +28,10 @@ class TocMachine(GraphMachine):
             {
                 'objects':['monster'],
                 'doors':['door_D','door_exit']
+            },
+            {
+                'objects':[],
+                'doors':['door_F']
             }
         ]
 
