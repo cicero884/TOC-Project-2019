@@ -11,7 +11,7 @@ class TocMachine(GraphMachine):
     house=[
             {
                 'objects':['box'],
-                'doors':['door_A','door_B','door_C']
+                'doors':['door_A','door_B','door_C','door_F']
             },
             {
                 'objects':['locker A1','locker A2','locker A3','locker A4'],
@@ -46,7 +46,7 @@ class TocMachine(GraphMachine):
                     send_text_message(sender_id,'The door is locked!')
 
         return False
-    "add"
+
     def door_F(self, event):
         print('@door_F')
         if event.get("message"):
@@ -54,7 +54,7 @@ class TocMachine(GraphMachine):
             if text == 'enter door_F':
                     return True
         return False
-    "there"
+
     def door_B(self, event):
         if event.get("message"):
             text = event['message']['text']
